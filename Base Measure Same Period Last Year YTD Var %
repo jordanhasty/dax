@@ -1,0 +1,2 @@
+Base Measure Same Period Last Year YTD Var % = 
+DIVIDE ( [Base Measure YTD] - [Base Measure Same Period Last Year YTD], [Base Measure YTD] ) 
