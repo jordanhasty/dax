@@ -1,0 +1,14 @@
+Base Measure Same Period Last Year YTD = 
+VAR Fiscal_Month = SELECTEDVALUE ( 'Date'[Running Fiscal Month Nbr] )
+VAR Fiscal_Year = SELECTEDVALUE ( 'Date'[Running Fiscal Year Nbr] )
+VAR Result =
+    CALCULATE (
+        [Base Measure],
+        FILTER (
+            ALL ( 'Date' ),
+            'Date'[Running Fiscal Month Nbr] <= Fiscal_Month - 12
+                && 'Date'[Running Fiscal Year Nbr] = Fiscal_Year - 1
+        )
+    )
+RETURN
+    Result
