@@ -1,0 +1,11 @@
+Y-Axis Range for <Measure Name> = 
+--Use this measure as the maximum value for the Y-Axis in a line-over-column chart. It will ensure you always have blank space at the top of the visual so that the line doesn't overlap the columns. 
+CALCULATE (
+    ROUNDUP (
+        MAXX (
+            VALUES ( 'Date'[Fiscal_Year_Week_Nbr] ), -- the x axis of the visual
+            [Base Measure] -- the measure for the column in the y axis of the visual
+        ),
+        -7  --Round to Tens of Millions; change as appropriate for the reange of your y-axis value
+    )
+) * 1.3 -- Allow extra space at the top of the range for the line chart
