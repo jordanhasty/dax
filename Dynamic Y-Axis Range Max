@@ -1,11 +1,26 @@
-Y-Axis Range for <Measure Name> = 
+Y-Axis Range for [Base Measure] = 
 --Use this measure as the maximum value for the Y-Axis in a line-over-column chart. It will ensure you always have blank space at the top of the visual so that the line doesn't overlap the columns. 
+Var Max_Measure = 
 CALCULATE (
-    ROUNDUP (
         MAXX (
-            VALUES ( 'Date'[Fiscal_Year_Week_Nbr] ), -- the x axis of the visual
+            VALUES ( 'Date'[Running Fiscal Month Nbr] ), -- the x axis of the visual
             [Base Measure] -- the measure for the column in the y axis of the visual
-        ),
-        -7  --Round to Tens of Millions; change as appropriate for the reange of your y-axis value
+        )
     )
-) * 1.3 -- Allow extra space at the top of the range for the line chart
+VAR NumberOfDigits = 
+SWITCH(
+    TRUE(),
+    Max_Measure >= 10 && Max_Measure < 100, 1,
+    Max_Measure >= 100 && Max_Measure < 1000, 2,
+    Max_Measure >= 1000 && Max_Measure < 10000, 3,
+    Max_Measure >= 10000 && Max_Measure < 100000, 4,
+    Max_Measure >= 100000 && Max_Measure < 1000000, 5,
+    Max_Measure >= 1000000 && Max_Measure < 10000000, 6,
+    Max_Measure >= 10000000 && Max_Measure < 100000000, 7,
+    Max_Measure >= 100000000 && Max_Measure < 1000000000, 8,
+    Max_Measure >= 1000000000 && Max_Measure < 10000000000, 9,
+    Max_Measure >= 10000000000 && Max_Measure < 100000000000, 10,
+    Max_Measure >= 100000000000 && Max_Measure < 1000000000000, 11
+)
+VAR Result = ROUNDUP(Max_Measure, -1 * NumberOfDigits) * 1.5 -- Change 1.X as needed to increase or decrease the amount of blank space for the line(s).
+Return Result
