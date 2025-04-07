@@ -1,0 +1,5 @@
+Base Measure Same Period Last Year Var % = 
+DIVIDE (
+    [Base Measure] - [Base Measure Same Period Last Year],
+    [Base Measure Same Period Last Year]
+)
