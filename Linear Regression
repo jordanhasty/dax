@@ -1,0 +1,17 @@
+Regression_Line_Base_Measure = 
+VAR MinMonth = MINX (ALLSELECTED('Date'), 'Date'[Running_Fiscal_Month_Nbr] ) - The Field on the X-Axis
+VAR MaxMonth = MAXX (ALLSELECTED('Date'), 'Date'[Running_Fiscal_Month_Nbr] ) - The Field on the X-Axis
+VAR Regression_Table =
+    FILTER (
+        ADDCOLUMNS (
+            SUMMARIZE ( ALL ( 'Date' ), 'Date'[Running_Fiscal_Month_Nbr] ),
+            "Y", [Base_Measure] -- The measure in the Y-Axis 
+        ),
+        'Date'[Running_Fiscal_Month_Nbr] >= MinMonth
+            && 'Date'[Running_Fiscal_Month_Nbr] <= MaxMonth
+    )    
+VAR Coeffs = LINESTX ( Regression_Table, [Y], 'Date'[Running_Fiscal_Month_Nbr] )
+VAR Slope = MAXX ( Coeffs, [Slope1] )
+VAR Intercept = MAXX ( Coeffs, [Intercept] )
+VAR Result = Slope * MAX ( 'Date'[Running_Fiscal_Month_Nbr] ) + Intercept
+RETURN Result
