@@ -1,0 +1,19 @@
+Last 06 Fiscal Months = 
+VAR NumOfMonths = 6
+VAR ReferenceDate =
+    MAX ( 'Date'[Running_Fiscal_Month_Nbr] ) -- Retreive selected fiscal month from slicer. 
+VAR PreviousMonths = -- Filter the secondary date table by the desired date range relative to fiscal month in the slicer
+        FILTER (
+            ( 'Date (Alternate Date Range)' ),
+            'Date (Alternate Date Range)'[Running Fiscal Month Nbr] >  ( ReferenceDate - NumOfMonths )
+                && 'Date (Alternate Date Range)'[Running Fiscal Month Nbr] <= ReferenceDate
+        )
+VAR Result = -- Calculate the measure removing filters on the primary date table (e.g., the fiscal month slicer) and applying the filters applied to the secondary date table. 
+    CALCULATE (
+        SELECTEDMEASURE (),
+        REMOVEFILTERS( 'Date' ),
+        KEEPFILTERS (PreviousMonths),
+        USERELATIONSHIP ( 'Date (Alternate Date Range)'[Date Key], 'Date'[Date_Key] )
+    )
+RETURN
+    Result
