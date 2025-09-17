@@ -24,5 +24,5 @@ SWITCH(
 )
 VAR Rounded_Max = ROUNDUP(Max_Measure, -1 * NumberOfDigits) 
 VAR Upper_Bound = Rounded_Max * 1.5 -- Change 1.X as needed to increase or decrease the amount of blank space for the line(s).
-VAR Adjusted_Upper_Bound = Upper_Bound - (Rounded_Max - Max_Measure)
+VAR Adjusted_Upper_Bound = Upper_Bound - (Rounded_Max - Max_Measure) -- This adjusts the Upper Boundary in cases where the Rounding Up is significant. 
 Return Adjusted_Upper_Bound
