@@ -22,5 +22,7 @@ SWITCH(
     Max_Measure >= 10000000000 && Max_Measure < 100000000000, 10,
     Max_Measure >= 100000000000 && Max_Measure < 1000000000000, 11
 )
-VAR Result = ROUNDUP(Max_Measure, -1 * NumberOfDigits) * 1.5 -- Change 1.X as needed to increase or decrease the amount of blank space for the line(s).
-Return Result
+VAR Rounded_Max = ROUNDUP(Max_Measure, -1 * NumberOfDigits) 
+VAR Upper_Bound = Rounded_Max * 1.5 -- Change 1.X as needed to increase or decrease the amount of blank space for the line(s).
+VAR Adjusted_Upper_Bound = Upper_Bound - (Rounded_Max - Max_Measure)
+Return Adjusted_Upper_Bound
