@@ -1,0 +1,21 @@
+Visual Title: Asset Group by Plant = 
+VAR SelectedTable =
+    SUMMARIZE (
+        'Measure Selection',
+        'Measure Selection'[Parameter],
+        'Measure Selection'[Parameter Fields]
+    )
+VAR MeasureCount = COUNTROWS ( SelectedTable )
+VAR ResultText =
+    SWITCH (
+        TRUE (),
+        MeasureCount > 3, "Selected Measures",
+        MeasureCount = 1, MAXX ( SelectedTable, 'Measure Selection'[Parameter] ),
+        MeasureCount = 2, CONCATENATEX ( SelectedTable, 'Measure Selection'[Parameter], " and " ),
+        MeasureCount = 3,
+            VAR FirstTwo =  TOPN ( 2, SelectedTable, 'Measure Selection'[Parameter] )
+            VAR LastOne = EXCEPT ( SelectedTable, FirstTwo )
+            RETURN CONCATENATEX ( FirstTwo, 'Measure Selection'[Parameter], ", " ) & ", and " & CONCATENATEX ( LastOne, 'Measure Selection'[Parameter] )
+    )
+RETURN
+    ResultText & "by Fiscal Month (or other text here)"
