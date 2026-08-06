@@ -1,4 +1,4 @@
-Visual Title: Asset Group by Plant = 
+Visual Title: Selected Measures by Fiscal Month = 
 VAR SelectedTable =
     SUMMARIZE (
         'Measure Selection',
